@@ -7,6 +7,7 @@ Django==5.1.6
 django-allauth==65.4.1
 idna==3.10
 oauthlib==3.2.2
+pillow==11.2.1
 pycparser==2.22
 PyJWT==2.10.1
 python-dotenv==1.0.1
