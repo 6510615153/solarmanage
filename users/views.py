@@ -5,6 +5,8 @@ from django.http import HttpResponseRedirect
 from .forms import UserRegisterForm
 from .models import Member
 
+from django.contrib.auth.decorators import login_required
+
 # Create your views here.
 
 def index(request):
@@ -70,6 +72,7 @@ def register_view(request):
         "Message" : "Register your account to gain access.",
     })
 
+@login_required(login_url='/login')
 def profile_view(request):
     current_member = Member.objects.get(member_user=request.user)
     return render(request, "users/profile.html", {
