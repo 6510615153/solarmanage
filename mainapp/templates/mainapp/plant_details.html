@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: #909225; /* พื้นหลังสีฟ้าอ่อน */
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            background-color:rgba(255, 255, 255, 0.3);;
+            border-radius: 12px;
+            padding: 40px 50px;
+            max-width: 400px;
+            width: 90%;
+        }
+        h1 {
+            font-size: 30px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #004d99; 
+        }
+        h2 {
+            margin-left: 32px;
+        }
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 12px 15px;
+            margin: 10px 0;
+            border: 1px solid #b3d9ff; 
+            border-radius: 8px;
+            font-size: 16px;
+            box-sizing: border-box;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+        input[type="text"]:focus, input[type="password"]:focus {
+            border-color: #007acc; 
+        }
+        input[type="submit"] {
+            width: 100%;
+            padding: 12px 15px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #fff;
+            background-color: #ff9d00; 
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
+        }
+        input[type="submit"]:hover {
+            background-color: #9e6200; 
+        }
+        .panel_side {
+            display: flex; 
+            gap: 32px;
+        }
+        .panel_info_red {
+            display: flex; 
+            flex-direction: column; 
+            border: 1px solid #000000ba; 
+            background-color: #f71212ba; 
+            padding: 10px; 
+            border-radius: 8px; 
+            min-width: 150px;
+            text-align: center;
+        }
+        .panel_info_orange {
+            display: flex; 
+            flex-direction: column; 
+            border: 1px solid #000000ba; 
+            background-color: #f79412ba; 
+            padding: 10px; 
+            border-radius: 8px; 
+            min-width: 150px;
+            text-align: center;
+        }       
+        .panel_info_green {
+            display: flex; 
+            flex-direction: column; 
+            border: 1px solid #000000ba; 
+            background-color: #12f731ba; 
+            padding: 10px; 
+            border-radius: 8px; 
+            min-width: 150px;
+            text-align: center;
+        }     
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Profile</h1>
+
+    <div>
+        <h2>ID: {{plant.id}}</h2>
+    </div>
+    <div>
+        <h2>Name: {{plant.plant_name}}</h2>
+    </div>
+    <div>
+        <h2>Owner: {{plant.plant_owner}}</h2>
+    </div>
+    <div>
+        <h2>Address: {{plant.plant_address}}</h2>
+    </div>
+
+    <div>
+        <h1>Latest Drone Image</h1>
+        <h2>Date: {{ pic.date }}</h2>
+        {% if pic %}
+            <img src="{{ pic.image.url }}" alt="Image of {{ plant.name }}" style="max-width: 400px;">
+        {% else %}
+            <p>No image available.</p>
+        {% endif %}
+    </div>
+
+    <div>
+        <h1>Solar Panel Analysis</h1>
+        <h2>Zone 1</h2>
+        <div class="panel_side">
+            {% for panel in panels %}
+            {% if panel.panel_condition == "bad" %}
+            <div class="panel_info_red">
+                <h3>ID: {{ panel.id }}</h3>
+                <h3>Energy: {{ panel.panel_energy }}</h3>
+                <h3>Condition: {{ panel.panel_condition }}</h3>
+            </div>
+            {% elif panel.panel_condition == "good" %}
+            <div class="panel_info_green">
+                <h3>ID: {{ panel.id }}</h3>
+                <h3>Energy: {{ panel.panel_energy }}</h3>
+                <h3>Condition: {{ panel.panel_condition }}</h3>
+            </div>
+            {% else %}
+            <div class="panel_info_orange">
+                <h3>ID: {{ panel.id }}</h3>
+                <h3>Energy: {{ panel.panel_energy }}</h3>
+                <h3>Condition: {{ panel.panel_condition }}</h3>
+            </div>
+            {% endif %}
+        {% endfor %}
+        </div>
+    </div>
+</div>
+</body>
+</html>

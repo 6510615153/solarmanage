@@ -24,3 +24,6 @@ class SolarPlant(models.Model):
 
     def __str__(self):
         return f"{self.plant_name}"
+    
+    def get_latest_image(self):
+        return self.images.order_by('-id').first()
