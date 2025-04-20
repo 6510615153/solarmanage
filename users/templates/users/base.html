@@ -29,11 +29,16 @@
     }
     .sidebar-list {
         background-color: rgb(185, 153, 112);
-        padding: 20px;
         margin-left: -40px;
         margin-bottom: 10px;
         font-size: 20px;
         font-weight: bold;
+    }
+    .sidebar-link {
+        text-decoration: none; 
+        color: inherit; 
+        display: block;
+        padding: 20px;
     }
 </style>
 <body class="container" style="background-color: antiquewhite;">
@@ -42,12 +47,18 @@
     </header>
     <sidebar class="sidebar-area">
         <ul style="list-style-type: none;">
-            <li class="sidebar-list">Dashboard</li>
+            <li class="sidebar-list">
+                <a href="{% url 'users:dashboard' %}" class="sidebar-link">Dashboard</a>
+            </li>
             {% if member.member_role == "manager" or member.member_role == "analyst" or member.member_role == "staff" %}
-            <li class="sidebar-list">Solar Plants</li>
+            <li class="sidebar-list">
+                <a href="{% url 'mainapp:solarplant' %}" class="sidebar-link">Solar Plants</a>
+            </li>
             {% endif %}
-            {% if member.member_role == "manager" or member.member_role == "drone" %}
-            <li class="sidebar-list">Upload</li>
+            {% if member.member_role == "manager" or member.member_role == "drone" or member.member_role == "staff" %}
+            <li class="sidebar-list">
+                <a href="{% url 'droneimage:upload_image' %}" class="sidebar-link">Upload</a>
+            </li>
             {% endif %}
         </ul>
     </sidebar>

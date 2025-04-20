@@ -180,7 +180,9 @@
             <br>
             <hr></hr>
             <br>
-            <a title="Google" href="/accounts/google/login/?process=login"><button class="gsi-material-button">
+            <form action="/accounts/google/login/?process=login" method="post">
+              {% csrf_token %}
+              <button class="gsi-material-button">
                 <div class="gsi-material-button-state"></div>
                 <div class="gsi-material-button-content-wrapper">
                   <div class="gsi-material-button-icon">
@@ -196,7 +198,7 @@
                   <span style="display: none;">Sign in with Google</span>
                 </div>
               </button>
-            </a>
+            </form>
             <br>
             <br>
             <div>
