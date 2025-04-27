@@ -12,9 +12,12 @@ def solarplant(request):
 
     all_plants = SolarPlant.objects.filter(plant_owner=current_member)
 
+    energy_generated = [plant.total_energy_generated() for plant in all_plants]
+
     return render(request, "mainapp/solarplant.html", {
         "member": current_member,
         "plants": all_plants,
+        "energy": energy_generated,
     })
 
 def details(request, plant_id):

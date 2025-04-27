@@ -27,3 +27,6 @@ class SolarPlant(models.Model):
     
     def get_latest_image(self):
         return self.images.order_by('-id').first()
+    
+    def total_energy_generated(self):
+        return sum(panel.panel_energy for panel in self.plant_panels.all())
