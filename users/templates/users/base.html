@@ -13,6 +13,7 @@
         grid-template-areas: 
             "header header header header header header"
             "sidebar main main main main main";
+        font-family: 'Inter', sans-serif;
     }
     .header-area {
         grid-area: header;
@@ -24,11 +25,15 @@
     }
     .sidebar-area {
         grid-area: sidebar;
-        background-color: rgb(222, 184, 135);
+        background-color: grey;
+        background-image: url('images/solar_plant.jpg');
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
         height: 100vh; 
     }
     .sidebar-list {
-        background-color: rgb(185, 153, 112);
+        background-color:rgba(255, 255, 255, 0.3);
         margin-left: -40px;
         margin-bottom: 10px;
         font-size: 20px;
@@ -71,7 +76,7 @@
     }
 
 </style>
-<body class="container" style="background-color: antiquewhite;">
+<body class="container" style="background-color: whitesmoke;">
     <header class="header-area">
         {% include 'users/header.html' %}
     </header>
