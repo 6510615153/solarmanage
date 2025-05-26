@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'users',
     'mainapp',
     'droneimage',
+    'mail',
 
     'django.contrib.sites',
     'allauth',
@@ -164,3 +165,11 @@ MEDIA_URL = 'media/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'  
+EMAIL_PORT = 587             
+EMAIL_USE_TLS = True         
+EMAIL_HOST_USER = 'solarmanagecn332@gmail.com' # Your email address
+EMAIL_HOST_PASSWORD = 'pscy dvaw nctq hspf' # app password
+DEFAULT_FROM_EMAIL = 'solarmanagecn332@gmail.com' # Email address shown as sender
