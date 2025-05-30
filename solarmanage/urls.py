@@ -26,6 +26,7 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),
     path('', include('mainapp.urls')),
     path('', include('droneimage.urls')),
+    path('dashboard/', include('dashboard_app.urls')),
 ]
 
 if settings.DEBUG:
