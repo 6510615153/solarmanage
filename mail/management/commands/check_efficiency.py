@@ -2,6 +2,7 @@
 
 from django.core.management.base import BaseCommand
 from mainapp.models import SolarPlant, SolarPanel, Zone
+from mail.models import Notification
 from mail.utils import send_custom_email 
 import logging
 
@@ -70,6 +71,11 @@ class Command(BaseCommand):
 
                         # Send the email using your utility function
                         email_sent = send_custom_email(subject, message, manager_email)
+                        Notification.objects.create(
+                            plant = plant,
+                            message = subject,
+                            level = "Warning",
+                        )
 
                         if email_sent:
                             self.stdout.write(self.style.SUCCESS(f"  Alert email successfully sent to {manager_email}."))

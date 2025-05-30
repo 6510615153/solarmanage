@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from datetime import datetime, timedelta
 from mainapp.models import SolarPanel, SolarPlant, Member, Zone
 from analysis.models import Report
+from mail.models import Notification
 
 from django.contrib.auth.decorators import login_required
 
@@ -28,10 +29,23 @@ class Dashboard:
         return {"forecast_kWh": 13500, "date": datetime.now().date()}
 
     def show_alerts(self, plant_id):
-        return [
-            {"timestamp": datetime.now() - timedelta(hours=1), "level": "warning", "message": "Low Voltage"},
-            {"timestamp": datetime.now() - timedelta(days=1), "level": "info", "message": "Completed Checking"}
-        ]
+        alert_list = []
+
+        all_notis = Notification.objects.filter(plant=SolarPlant.objects.get(id=plant_id))
+
+        for noti in all_notis:
+            alert_list.append({
+                "timestamp": noti.timestamp,
+                "level": noti.level,
+                "message": noti.message,
+            })
+
+        return alert_list
+
+        # return [
+        #     # {"timestamp": datetime.now() - timedelta(hours=1), "level": "warning", "message": "Low Voltage"},
+        #     # {"timestamp": datetime.now() - timedelta(days=1), "level": "info", "message": "Completed Checking"}
+        # ]
 
     def get_latest_images(self, plant_id):
         return [
@@ -115,6 +129,15 @@ def dashboard_main(request, plant_id):
 
     all_zones = Zone.objects.filter(zone_plant=plant)
 
+    zones = Zone.objects.filter(zone_plant=plant)
+    # energy_generated = [zone.total_energy_generated() for zone in zones]
+    # average_efficiency = [zone.average_efficiency() for zone in zones] #/ zones.count()
+
+    # performance_data = {
+    #     "labels": [f"Zone {zone.id}" for zone in zones],
+    #     "values": average_efficiency,
+    # }
+
 
     # Mock: อุณหภูมิแผงโซลาร์เซลล์รายชั่วโมง
     solar_temp_data = {
@@ -134,6 +157,7 @@ def dashboard_main(request, plant_id):
         # 'activities': activities,
         'pic': current_image,
         # 'panels': all_panels,
+        # 'performance_data': performance_data,
         'solar_temp_data': solar_temp_data,
         'reports': all_reports,
         'zones': all_zones,
