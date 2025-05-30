@@ -1,0 +1,48 @@
+{% extends 'dashboard_app/base.html' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+  <h2>Plant Name: {{ plant.name }}</h2>
+  <p><strong>Location:</strong> {{ plant.location }}</p>
+
+  <hr>
+
+  <h3>Performance</h3>
+  <ul>
+    <li>Efficiency: {{ performance.efficiency }}%</li>
+    <li>Output: {{ performance.output }} kWh</li>
+  </ul>
+
+  <h3>Forecast</h3>
+  <ul>
+    <li>Forecast: {{ forecast.forecast_kWh }} kWh</li>
+    <li>Date: {{ forecast.date }}</li>
+  </ul>
+
+  <h3>Latest Alert</h3>
+  {% if alerts %}
+    <ul>
+      {% for alert in alerts %}
+        <li class="text-{{ alert.level }}">
+          [{{ alert.timestamp|date:"Y-m-d H:i" }}] {{ alert.level|upper }} - {{ alert.message }}
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No Alert</p>
+  {% endif %}
+
+  <h3>Latest Drone Images</h3>
+  <div class="row">
+    {% for img in images %}
+      <div class="col-md-3">
+        <img src="{{ img.url }}" class="img-thumbnail mb-2" alt="Drone Image">
+        <small>{{ img.captured_at|date:"Y-m-d H:i" }}</small>
+      </div>
+    {% endfor %}
+  </div>
+
+  <hr>
+  <a href="{% url 'dashboard_customize' %}" class="btn btn-secondary">Customize Dashboard</a>
+{% endblock %}
