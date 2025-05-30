@@ -47,16 +47,17 @@
 
   <div>
         <h1>Solar Panel Analysis</h1>
-        <h2>Zone 1</h2>
+        {% for zone in zones %}
+        <h2>Zone {{ forloop.counter }}</h2>
         <div class="panel_side">
-            {% for panel in panels %}
+            {% for panel in zone.zone_panels.all %}
             {% if panel.panel_condition < 80 %}
             <div class="panel_info_red">
                 <h3>ID: {{ panel.id }}</h3>
                 <p>Energy: {{ panel.panel_energy }}</p>
                 <p>Condition: {{ panel.panel_condition }}</p>
             </div>
-            {% elif panel.panel_condition > 90 %}
+            {% elif panel.panel_condition >= 90 %}
             <div class="panel_info_green">
                 <h3>ID: {{ panel.id }}</h3>
                 <p>Energy: {{ panel.panel_energy }}</p>
@@ -69,8 +70,9 @@
                 <p>Condition: {{ panel.panel_condition }}</p>
             </div>
             {% endif %}
-        {% endfor %}
+            {% endfor %}
         </div>
+        {% endfor %}
     </div>
     <br>
   <div>

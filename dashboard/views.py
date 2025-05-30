@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from datetime import datetime, timedelta
-from mainapp.models import SolarPanel, SolarPlant, Member
+from mainapp.models import SolarPanel, SolarPlant, Member, Zone
 from analysis.models import Report
 
 class Dashboard:
@@ -9,10 +9,17 @@ class Dashboard:
 
     def show_plant_performance(self, plant_id):
         plant = SolarPlant.objects.get(id=plant_id)
-        # energy_generated = plant.total_energy_generated()
+
+        energy_generated = []
+        average_efficiency = []
+
+        zones = Zone.objects.filter(zone_plant=plant)
+        energy_generated = sum([zone.total_energy_generated() for zone in zones])
+        average_efficiency = sum([zone.average_efficiency() for zone in zones])
+        
         return {
-                    "efficiency": plant.average_efficiency(), 
-                    "output": plant.total_energy_generated(),
+                    "efficiency": average_efficiency, 
+                    "output": energy_generated,
                 }
 
     def show_energy_forecast(self, plant_id):
@@ -90,9 +97,11 @@ def dashboard_main(request, plant_id):
 
     current_image = plant.get_latest_image()
 
-    all_panels = plant.plant_panels.all()
+    
 
     all_reports = Report.objects.filter(solarplant=plant)
+
+    all_zones = Zone.objects.filter(zone_plant=plant)
 
 
     # Mock: อุณหภูมิแผงโซลาร์เซลล์รายชั่วโมง
@@ -112,7 +121,8 @@ def dashboard_main(request, plant_id):
         'alerts': alerts,
         # 'activities': activities,
         'pic': current_image,
-        'panels': all_panels,
+        # 'panels': all_panels,
         'solar_temp_data': solar_temp_data,
         'reports': all_reports,
+        'zones': all_zones,
     })
