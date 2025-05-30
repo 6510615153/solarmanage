@@ -11,10 +11,12 @@ from django.contrib.auth.decorators import login_required
 @login_required(login_url='/login')
 def solarplant(request):
     current_member = Member.objects.get(member_user=request.user)
-    if(current_member.member_role == "staff"):  
-        all_plants = SolarPlant.objects.filter(plant_staffs=current_member)
-    else:
+    if(current_member.member_role == "manager"):  
         all_plants = SolarPlant.objects.filter(plant_owner=current_member)
+    elif current_member.member_role in ["drone", "analyst"]:  
+        all_plants = SolarPlant.objects.all()
+    else:
+        all_plants = SolarPlant.objects.filter(plant_staffs=current_member)
 
         # energy_generated = [plant.total_energy_generated() for plant in all_plants]
 

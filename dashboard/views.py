@@ -17,7 +17,7 @@ class Dashboard:
 
         zones = Zone.objects.filter(zone_plant=plant)
         energy_generated = sum([zone.total_energy_generated() for zone in zones])
-        average_efficiency = sum([zone.average_efficiency() for zone in zones])
+        average_efficiency = f"{sum([zone.average_efficiency() for zone in zones]) / zones.count():.2f}"
         
         return {
                     "efficiency": average_efficiency, 
