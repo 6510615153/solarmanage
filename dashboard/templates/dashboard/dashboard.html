@@ -36,8 +36,12 @@
   <h3>Latest Drone Images</h3>
   <div class="row">
       <div class="col-md-3">
-        <img src="{{ pic.image.url }}" alt="Image of {{ plant.name }}" class="img-thumbnail mb-2" style="max-width: 400px;">
-        <small>{{ img.captured_at|date:"Y-m-d H:i" }}</small>
+        {% if pic %}
+            <img src="{{ pic.image.url }}" alt="Image of {{ plant.name }}" class="img-thumbnail mb-2" style="max-width: 400px;">
+            <small>{{ img.captured_at|date:"Y-m-d H:i" }}</small>
+        {% else %}
+            <p>No image available.</p>
+        {% endif %}
       </div>
   </div>
 
@@ -68,6 +72,22 @@
         {% endfor %}
         </div>
     </div>
+    <br>
+  <div>
+    <ul>
+      {% for report in reports %}
+        <li>
+          <h2>
+           <a href="{% url 'analysis:details' report.id %}">
+              {{ report.title }} - {{ report.date }}
+            </a>
+            </h2>
+        </li>
+      {% empty %}
+        <li>No reports found for this plant.</li>
+      {% endfor %}
+    </ul>
+  </div>
 
 <!-- <h2>Production Chart</h2>
 <canvas id="productionChart" width="600" height="300"></canvas>
@@ -167,5 +187,7 @@
 </script> -->
 
   <hr>
-  <a href="{% url 'dashboard:dashboard_customize' %}" class="btn btn-secondary">Customize Dashboard</a>
+  <a href="{% url 'dashboard:dashboard_customize' plant.id %}" class="btn btn-secondary">Customize Dashboard</a>
+  <br>
+  <br>
 {% endblock %}

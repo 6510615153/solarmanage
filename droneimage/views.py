@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .forms import ImageUploadForm
 from django.conf import settings
 from users.models import Member
@@ -13,6 +13,7 @@ def upload_image(request):
         form = ImageUploadForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
+            return redirect("droneimage:success")
     else:
         form = ImageUploadForm()
 
@@ -20,3 +21,11 @@ def upload_image(request):
         'form': form,
         "member": current_member,
     })
+
+def success(request):
+    current_member = Member.objects.get(member_user=request.user)
+    return render(request, 'droneimage/success.html', {
+        "member": current_member,
+    })
+
+

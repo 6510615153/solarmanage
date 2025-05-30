@@ -24,4 +24,4 @@ class Image(models.Model):
     date = models.DateField()  
 
     def __str__(self):
-        return f"Image {self.id} uploaded on {self.timestamp} for {self.solarplant}"
+        return f"Image {self.id} uploaded on {self.date} for {self.solarplant}"

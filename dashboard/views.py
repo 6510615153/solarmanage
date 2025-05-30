@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from datetime import datetime, timedelta
 from mainapp.models import SolarPanel, SolarPlant, Member
+from analysis.models import Report
 
 class Dashboard:
     def can_user_view(self, user, plant_id):
@@ -65,16 +66,18 @@ dashboard = Dashboard()
 #         "panels": all_panels,
 #     })
 
-def dashboard_customize(request):
+def dashboard_customize(request, plant_id):
     if request.method == 'POST':
         options = {
             'theme': request.POST.get('theme'),
             'show_images': request.POST.get('show_images')
         }
         dashboard.customize_view(options)
-        return redirect('dashboard_main', plant_id=1)
+        return redirect('dashboard:dashboard_main', plant_id)
 
-    return render(request, 'dashboard/customize.html')
+    return render(request, 'dashboard/customize.html', {
+        'plant_id': plant_id
+    })
 
 def dashboard_main(request, plant_id):
     dashboard = Dashboard()
@@ -88,6 +91,8 @@ def dashboard_main(request, plant_id):
     current_image = plant.get_latest_image()
 
     all_panels = plant.plant_panels.all()
+
+    all_reports = Report.objects.filter(solarplant=plant)
 
 
     # Mock: อุณหภูมิแผงโซลาร์เซลล์รายชั่วโมง
@@ -109,4 +114,5 @@ def dashboard_main(request, plant_id):
         'pic': current_image,
         'panels': all_panels,
         'solar_temp_data': solar_temp_data,
+        'reports': all_reports,
     })

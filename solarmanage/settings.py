@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'mainapp',
     'droneimage',
     'dashboard',
+    'analysis',
 
     'django.contrib.sites',
     'allauth',
