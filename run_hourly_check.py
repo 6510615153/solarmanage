@@ -5,12 +5,13 @@ import subprocess
 import time
 import os
 from datetime import datetime
+import sys
 
 # When running INSIDE an activated virtual environment, 'python' in the PATH
 # already points to the venv's python.
 # Also, 'manage.py' is usually found relative to the script's location.
 
-PYTHON_EXECUTABLE = r'C:\Users\plowi\cn332\solarmanage\.venv\Scripts\python.exe' # Simply 'python' because venv is activated
+PYTHON_EXECUTABLE = sys.executable # Simply 'python' because venv is activated
 MANAGE_PY_PATH = 'manage.py' # Relative path is fine from project root
 
 # Define the Django management command to run
