@@ -43,6 +43,103 @@
     {% endfor %}
   </div>
 
+<h2>Production Chart</h2>
+<canvas id="productionChart" width="600" height="300"></canvas>
+
+<h2>Performance Chart</h2>
+<canvas id="performanceChart" width="600" height="300"></canvas>
+
+<script>
+    // กราฟเส้น - การผลิตพลังงาน
+    const productionCtx = document.getElementById('productionChart').getContext('2d');
+    new Chart(productionCtx, {
+        type: 'line',
+        data: {
+            labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+            datasets: [{
+                label: 'Production (kWh)',
+                data: {{ production_data|safe }},
+                borderColor: 'rgba(75, 192, 192, 1)',
+                fill: true,
+                tension: 0.3
+            }]
+        },
+        options: {
+            responsive: true
+        }
+    });
+
+    // กราฟแท่ง - เปรียบเทียบประสิทธิภาพโรงงาน
+    const performanceCtx = document.getElementById('performanceChart').getContext('2d');
+    new Chart(performanceCtx, {
+        type: 'bar',
+        data: {
+            labels: {{ performance_data.labels|safe }},
+            datasets: [{
+                label: 'Efficiency (%)',
+                data: {{ performance_data.values|safe }},
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.6)',
+                    'rgba(54, 162, 235, 0.6)',
+                    'rgba(255, 206, 86, 0.6)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 100
+                }
+            }
+        }
+    });
+</script>
+
+<h2>Solar Temperature Chart</h2>
+<canvas id="solarTempChart" width="600" height="300"></canvas>
+
+<script>
+    const solarTempCtx = document.getElementById('solarTempChart').getContext('2d');
+    new Chart(solarTempCtx, {
+        type: 'line',
+        data: {
+            labels: {{ solar_temp_data.time_labels|safe }},
+            datasets: [{
+                label: 'Solar Cell Temp (°C)',
+                data: {{ solar_temp_data.temperatures|safe }},
+                borderColor: 'rgba(255, 165, 0, 1)',
+                backgroundColor: 'rgba(255, 165, 0, 0.3)',
+                fill: true,
+                tension: 0.4,
+                pointRadius: 4,
+                pointHoverRadius: 6
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    suggestedMin: 25,
+                    suggestedMax: 60,
+                    title: {
+                        display: true,
+                        text: 'Temperature (°C)'
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Time of Day'
+                    }
+                }
+            }
+        }
+    });
+</script>
+
   <hr>
   <a href="{% url 'dashboard:dashboard_customize' %}" class="btn btn-secondary">Customize Dashboard</a>
 {% endblock %}
