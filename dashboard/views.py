@@ -55,3 +55,31 @@ def dashboard_customize(request):
         dashboard.customize_view(options)
         return redirect('dashboard_main', plant_id=1)
     return render(request, 'dashboard_app/customize.html')
+
+def dashboard_view(request):
+    dashboard = Dashboard()
+    plant_id = 1
+    performance = dashboard.show_plant_performance(plant_id)
+    forecast = dashboard.show_energy_forecast(plant_id)
+    alerts = dashboard.show_alerts(plant_id)
+    activities = dashboard.get_recent_activities()
+    images = dashboard.get_latest_images(plant_id)
+
+    # Mock: อุณหภูมิแผงโซลาร์เซลล์รายชั่วโมง
+    solar_temp_data = {
+        'time_labels': ['06:00', '07:00', '08:00', '09:00', '10:00',
+                        '11:00', '12:00', '13:00', '14:00', '15:00',
+                        '16:00', '17:00', '18:00'],
+        'temperatures': [28.0, 30.5, 33.0, 36.2, 40.1,
+                         44.5, 47.8, 49.3, 48.6, 46.0,
+                         42.2, 38.1, 33.7]
+    }
+
+    return render(request, 'dashboard/dashboard.html', {
+        'performance': performance,
+        'forecast': forecast,
+        'alerts': alerts,
+        'activities': activities,
+        'images': images,
+        'solar_temp_data': solar_temp_data,
+    })
