@@ -4,15 +4,19 @@ from django.contrib.auth import authenticate, login, logout
 from users.models import Member
 from .models import SolarPlant, Zone
 
+from django.contrib.auth.decorators import login_required
+
 # Create your views here.
 
+@login_required(login_url='/login')
 def solarplant(request):
-
     current_member = Member.objects.get(member_user=request.user)
+    if(current_member.member_role == "staff"):  
+        all_plants = SolarPlant.objects.filter(plant_staffs=current_member)
+    else:
+        all_plants = SolarPlant.objects.filter(plant_owner=current_member)
 
-    all_plants = SolarPlant.objects.filter(plant_owner=current_member)
-
-    # energy_generated = [plant.total_energy_generated() for plant in all_plants]
+        # energy_generated = [plant.total_energy_generated() for plant in all_plants]
 
     energy_generated = []
 

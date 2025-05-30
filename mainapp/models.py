@@ -24,6 +24,8 @@ class SolarPlant(models.Model):
     plant_owner = models.ForeignKey(Member, on_delete=models.CASCADE)
     plant_address = models.CharField(max_length=128, blank=True)
 
+    plant_staffs = models.ManyToManyField(Member, related_name="solarplants")
+
     def __str__(self):
         return f"{self.plant_name}"
     

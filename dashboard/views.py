@@ -3,6 +3,8 @@ from datetime import datetime, timedelta
 from mainapp.models import SolarPanel, SolarPlant, Member, Zone
 from analysis.models import Report
 
+from django.contrib.auth.decorators import login_required
+
 class Dashboard:
     def can_user_view(self, user, plant_id):
         return True
@@ -73,7 +75,12 @@ dashboard = Dashboard()
 #         "panels": all_panels,
 #     })
 
+@login_required(login_url='/login')
 def dashboard_customize(request, plant_id):
+    current_member = Member.objects.get(member_user=request.user)
+    if current_member.member_role not in ["analyst", "manager"]:
+        return redirect("users:unauthorized")
+
     if request.method == 'POST':
         options = {
             'theme': request.POST.get('theme'),
@@ -86,7 +93,12 @@ def dashboard_customize(request, plant_id):
         'plant_id': plant_id
     })
 
+@login_required(login_url='/login')
 def dashboard_main(request, plant_id):
+    current_member = Member.objects.get(member_user=request.user)
+    if current_member.member_role not in ["analyst", "manager"]:
+        return redirect("users:unauthorized")
+
     dashboard = Dashboard()
     plant = SolarPlant.objects.get(id=plant_id)
     performance = dashboard.show_plant_performance(plant_id)
