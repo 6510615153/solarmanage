@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from datetime import datetime, timedelta
+from mainapp.models import SolarPanel, SolarPlant, Member
 
 class Dashboard:
     def can_user_view(self, user, plant_id):
@@ -32,18 +33,32 @@ def dashboard_main(request, plant_id):
     if not dashboard.can_user_view(request.user, plant_id):
         return redirect('no_permission')
 
-    plant = {
-        "id": plant_id,
-        "name": f"Solar Plant #{plant_id}",
-        "location": "Chiang Mai, Thailand"
-    }
+    # plant = {
+    #     "id": plant_id,
+    #     "name": f"Solar Plant #{plant_id}",
+    #     "location": "Chiang Mai, Thailand"
+    # }
+
+    plant = SolarPlant.objects.get(id=plant_id)
+
+    current_image = plant.get_latest_image()
+
+    all_panels = plant.plant_panels.all()
+
+    # return render(request, "mainapp/plant_details.html", {
+    #     "plant": current_plant,
+    #     "pic": current_image,
+    #     "panels": all_panels,
+    # })
 
     return render(request, 'dashboard/dashboard.html', {
         'plant': plant,
         'performance': dashboard.show_plant_performance(plant_id),
         'forecast': dashboard.show_energy_forecast(plant_id),
         'alerts': dashboard.show_alerts(plant_id),
-        'images': dashboard.get_latest_images(plant_id)
+        'images': dashboard.get_latest_images(plant_id),
+        "pic": current_image,
+        "panels": all_panels,
     })
 
 def dashboard_customize(request):
