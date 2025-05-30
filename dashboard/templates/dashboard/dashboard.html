@@ -14,11 +14,11 @@
     <li>Output: {{ performance.output }} kWh</li>
   </ul>
 
-  <h3>Forecast</h3>
+  <!-- <h3>Forecast</h3>
   <ul>
     <li>Forecast: {{ forecast.forecast_kWh }} kWh</li>
     <li>Date: {{ forecast.date }}</li>
-  </ul>
+  </ul> -->
 
   <h3>Latest Alert</h3>
   {% if alerts %}
@@ -35,15 +35,41 @@
 
   <h3>Latest Drone Images</h3>
   <div class="row">
-    {% for img in images %}
       <div class="col-md-3">
-        <img src="{{ img.url }}" class="img-thumbnail mb-2" alt="Drone Image">
+        <img src="{{ pic.image.url }}" alt="Image of {{ plant.name }}" class="img-thumbnail mb-2" style="max-width: 400px;">
         <small>{{ img.captured_at|date:"Y-m-d H:i" }}</small>
       </div>
-    {% endfor %}
   </div>
 
-<h2>Production Chart</h2>
+  <div>
+        <h1>Solar Panel Analysis</h1>
+        <h2>Zone 1</h2>
+        <div class="panel_side">
+            {% for panel in panels %}
+            {% if panel.panel_condition < 80 %}
+            <div class="panel_info_red">
+                <h3>ID: {{ panel.id }}</h3>
+                <p>Energy: {{ panel.panel_energy }}</p>
+                <p>Condition: {{ panel.panel_condition }}</p>
+            </div>
+            {% elif panel.panel_condition > 90 %}
+            <div class="panel_info_green">
+                <h3>ID: {{ panel.id }}</h3>
+                <p>Energy: {{ panel.panel_energy }}</p>
+                <p>Condition: {{ panel.panel_condition }}</p>
+            </div>
+            {% else %}
+            <div class="panel_info_orange">
+                <h3>ID: {{ panel.id }}</h3>
+                <p>Energy: {{ panel.panel_energy }}</p>
+                <p>Condition: {{ panel.panel_condition }}</p>
+            </div>
+            {% endif %}
+        {% endfor %}
+        </div>
+    </div>
+
+<!-- <h2>Production Chart</h2>
 <canvas id="productionChart" width="600" height="300"></canvas>
 
 <h2>Performance Chart</h2>
@@ -138,7 +164,7 @@
             }
         }
     });
-</script>
+</script> -->
 
   <hr>
   <a href="{% url 'dashboard:dashboard_customize' %}" class="btn btn-secondary">Customize Dashboard</a>

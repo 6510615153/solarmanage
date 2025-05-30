@@ -34,3 +34,6 @@ class SolarPlant(models.Model):
     
     def total_energy_generated(self):
         return sum(panel.panel_energy for panel in self.plant_panels.all())
+    
+    def average_efficiency(self):
+        return sum(panel.panel_condition for panel in self.plant_panels.all()) / self.plant_panels.count()
