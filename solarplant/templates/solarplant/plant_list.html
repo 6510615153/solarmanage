@@ -1,0 +1,14 @@
+{% extends "users/base.html" %}
+
+{% block content %}
+    <h2>Solar Plants</h2>
+    <ul>
+        {% for plant in plants %}
+            <li>{{ plant.name }} - {{ plant.location }} - {{ plant.capacity }} kWh</li>
+        {% endfor %}
+    </ul>
+
+    <p><a href="{% url 'create_plant' %}">+ Add Plant</a></p>
+    <p><a href="{% url 'create_zone' %}">+ Add Zone</a></p>
+    <p><a href="{% url 'create_panel' %}">+ Add Panel</a></p>
+{% endblock %}

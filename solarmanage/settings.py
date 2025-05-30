@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'users',
     'mainapp',
     'droneimage',
+    'solarplant',
 
     'django.contrib.sites',
     'allauth',

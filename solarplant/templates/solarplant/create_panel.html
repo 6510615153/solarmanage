@@ -1,0 +1,11 @@
+{% extends "users/base.html" %}
+
+{% block content %}
+    <main>
+    <h2>Create Solar Panel</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Create</button>
+    </form>
+{% endblock %}
