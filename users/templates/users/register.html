@@ -9,7 +9,7 @@
             margin: 0;
             font-family: 'Inter', sans-serif;
             background-color: lightgray;
-            background-image: url('images/solar_plant.jpg');
+            background-image: url('https://images.pexels.com/photos/4148472/pexels-photo-4148472.jpeg');
             background-repeat: no-repeat;
             background-size: cover;
             background-position: center;
@@ -19,17 +19,32 @@
             align-items: center;
             min-height: 100vh;
         }
+
+        @media (orientation: portrait) {
+            body {
+                background-size: auto 100%;
+            }
+        }
+
+        @media (orientation: landscape) {
+            body {
+                background-size: 100% auto;
+            }
+        }
+        
         .container {
-            background-color:rgba(255, 255, 255, 0.3);;
+            background-color: rgba(29, 150, 144, 0.486);
             border-radius: 12px;
             padding: 40px 50px;
             text-align: center;
-            max-width: 400px;
+            max-width: 350px;
             width: 90%;
+            margin: 30px; 
         }
+        
         h2 {
             font-size: 32px;
-            color: #000000;
+            color: #ffd51c;
             margin-bottom: 10px;
         }
 
@@ -41,8 +56,8 @@
 
         label {
             display: block;
-            font-size: 14px;
-            color: #555;
+            font-size: 16px;
+            color: #fffb24;
             text-align: left;
             margin-bottom: 5px;
         }
