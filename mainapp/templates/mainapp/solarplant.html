@@ -28,7 +28,7 @@
                     <td>{{ plant.plant_name }}</td>
                     <td>{{ energy.0  }}</td>
                     <td>
-                    <a class="details_button" href="{% url 'mainapp:details' plant.id %}">Details</a>
+                    <a class="details_button" href="{% url 'dashboard:dashboard_main' plant.id %}">Details</a>
                     </td> 
                 </tr>
             {% endfor %}

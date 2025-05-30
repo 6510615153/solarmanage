@@ -38,7 +38,7 @@ def dashboard_main(request, plant_id):
         "location": "Chiang Mai, Thailand"
     }
 
-    return render(request, 'dashboard_app/dashboard.html', {
+    return render(request, 'dashboard/dashboard.html', {
         'plant': plant,
         'performance': dashboard.show_plant_performance(plant_id),
         'forecast': dashboard.show_energy_forecast(plant_id),
@@ -54,4 +54,4 @@ def dashboard_customize(request):
         }
         dashboard.customize_view(options)
         return redirect('dashboard_main', plant_id=1)
-    return render(request, 'dashboard_app/customize.html')
+    return render(request, 'dashboard/customize.html')

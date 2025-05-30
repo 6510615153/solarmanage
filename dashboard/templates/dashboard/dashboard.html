@@ -1,4 +1,4 @@
-{% extends 'dashboard_app/base.html' %}
+{% extends 'dashboard/base.html' %}
 
 {% block title %}Dashboard{% endblock %}
 
@@ -44,5 +44,5 @@
   </div>
 
   <hr>
-  <a href="{% url 'dashboard_customize' %}" class="btn btn-secondary">Customize Dashboard</a>
+  <a href="{% url 'dashboard:dashboard_customize' %}" class="btn btn-secondary">Customize Dashboard</a>
 {% endblock %}
