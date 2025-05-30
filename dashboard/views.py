@@ -74,10 +74,11 @@ def dashboard_customize(request):
 
 def dashboard_main(request, plant_id):
     dashboard = Dashboard()
+    plant = SolarPlant.objects.get(id=plant_id)
     performance = dashboard.show_plant_performance(plant_id)
     forecast = dashboard.show_energy_forecast(plant_id)
     alerts = dashboard.show_alerts(plant_id)
-    activities = dashboard.get_recent_activities()
+    # activities = dashboard.get_recent_activities()
     images = dashboard.get_latest_images(plant_id)
 
     # Mock: อุณหภูมิแผงโซลาร์เซลล์รายชั่วโมง
@@ -91,10 +92,11 @@ def dashboard_main(request, plant_id):
     }
 
     return render(request, 'dashboard/dashboard.html', {
+        'plant': plant,
         'performance': performance,
         'forecast': forecast,
         'alerts': alerts,
-        'activities': activities,
+        # 'activities': activities,
         'images': images,
         'solar_temp_data': solar_temp_data,
     })

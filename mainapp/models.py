@@ -1,5 +1,6 @@
 from django.db import models
 from users.models import Member
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 # Create your models here.
 
@@ -7,7 +8,10 @@ class SolarPanel(models.Model):
 
     panel_code = models.CharField(max_length=20, blank=True)
     panel_energy = models.IntegerField()
-    panel_condition = models.CharField(max_length=5, blank=True)
+    panel_condition = models.FloatField(
+        validators=[MinValueValidator(0.0), MaxValueValidator(100.0)],
+        help_text="Percentage value from 0.0 to 100.0"
+    )
 
     def __str__(self):
         return f"{self.panel_code}"
