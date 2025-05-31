@@ -78,3 +78,8 @@ def profile_view(request):
     return render(request, "users/profile.html", {
         "member": current_member
     })
+
+@login_required(login_url='/login')
+def unauthorized(request):
+    return render(request, "users/unauthorized.html", {
+    })

@@ -27,6 +27,8 @@ urlpatterns = [
     path('', include('mainapp.urls')),
     path('', include('droneimage.urls')),
     path('', include('solarplant.urls')),
+    path('', include('analysis.urls')),
+    path('dashboard/', include('dashboard.urls')),
 ]
 
 if settings.DEBUG:

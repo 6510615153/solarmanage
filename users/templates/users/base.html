@@ -39,6 +39,13 @@
         font-size: 20px;
         font-weight: bold;
     }
+    .sidebar-list:hover {
+        background-color:rgba(255, 255, 255, 0.151);
+        margin-left: -40px;
+        margin-bottom: 10px;
+        font-size: 20px;
+        font-weight: bold;
+    }
     .sidebar-link {
         text-decoration: none; 
         color: inherit; 
@@ -90,9 +97,14 @@
                 <a href="{% url 'mainapp:solarplant' %}" class="sidebar-link">Solar Plants</a>
             </li>
             {% endif %}
-            {% if member.member_role == "manager" or member.member_role == "drone" or member.member_role == "staff" %}
+            {% if member.member_role == "manager" or member.member_role == "drone" %}
             <li class="sidebar-list">
-                <a href="{% url 'droneimage:upload_image' %}" class="sidebar-link">Upload</a>
+                <a href="{% url 'droneimage:upload_image' %}" class="sidebar-link">Upload Image</a>
+            </li>
+            {% endif %}
+            {% if member.member_role == "manager" or member.member_role == "analyst" %}
+            <li class="sidebar-list">
+                <a href="{% url 'analysis:upload_report' %}" class="sidebar-link">Upload Report</a>
             </li>
             {% endif %}
         </ul>

@@ -1,0 +1,196 @@
+{% extends 'dashboard/base.html' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+  <h2>Plant Name: {{ plant.plant_name }}</h2>
+  <p><strong>Owner:</strong> {{ plant.plant_owner }}</p>
+  <p><strong>Location:</strong> {{ plant.plant_address }}</p>
+
+  <hr>
+
+  <h3>Performance</h3>
+  <ul>
+    <li>Efficiency: {{ performance.efficiency }}%</li>
+    <li>Output: {{ performance.output }} kWh</li>
+  </ul>
+
+  <!-- <h3>Forecast</h3>
+  <ul>
+    <li>Forecast: {{ forecast.forecast_kWh }} kWh</li>
+    <li>Date: {{ forecast.date }}</li>
+  </ul> -->
+
+  <h3>Latest Alert</h3>
+  {% if alerts %}
+    <ul>
+      {% for alert in alerts %}
+        <li class="text-{{ alert.level }}">
+          [{{ alert.timestamp|date:"Y-m-d H:i" }}] {{ alert.level|upper }} - {{ alert.message }}
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No Alert</p>
+  {% endif %}
+
+  <h3>Latest Drone Images</h3>
+  <div class="row">
+      <div class="col-md-3">
+        {% if pic %}
+            <img src="{{ pic.image.url }}" alt="Image of {{ plant.name }}" class="img-thumbnail mb-2" style="max-width: 400px;">
+            <small>{{ img.captured_at|date:"Y-m-d H:i" }}</small>
+        {% else %}
+            <p>No image available.</p>
+        {% endif %}
+      </div>
+  </div>
+
+  <div>
+        <h1>Solar Panel Analysis</h1>
+        {% for zone in zones %}
+        <h2>Zone {{ forloop.counter }}</h2>
+        <div class="panel_side">
+            {% for panel in zone.zone_panels.all %}
+            {% if panel.panel_condition < 80 %}
+            <div class="panel_info_red">
+                <h3>ID: {{ panel.id }}</h3>
+                <p>Energy: {{ panel.panel_energy }}</p>
+                <p>Condition: {{ panel.panel_condition }}</p>
+            </div>
+            {% elif panel.panel_condition >= 90 %}
+            <div class="panel_info_green">
+                <h3>ID: {{ panel.id }}</h3>
+                <p>Energy: {{ panel.panel_energy }}</p>
+                <p>Condition: {{ panel.panel_condition }}</p>
+            </div>
+            {% else %}
+            <div class="panel_info_orange">
+                <h3>ID: {{ panel.id }}</h3>
+                <p>Energy: {{ panel.panel_energy }}</p>
+                <p>Condition: {{ panel.panel_condition }}</p>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+        {% endfor %}
+    </div>
+    <br>
+  <div>
+    <ul>
+      {% for report in reports %}
+        <li>
+          <h2>
+           <a href="{% url 'analysis:details' report.id %}">
+              {{ report.title }} - {{ report.date }}
+            </a>
+            </h2>
+        </li>
+      {% empty %}
+        <li>No reports found for this plant.</li>
+      {% endfor %}
+    </ul>
+  </div>
+
+<!-- <h2>Production Chart</h2>
+<canvas id="productionChart" width="600" height="300"></canvas>
+
+<h2>Performance Chart</h2>
+<canvas id="performanceChart" width="600" height="300"></canvas> -->
+
+<!-- <script>
+    // กราฟเส้น - การผลิตพลังงาน
+    const productionCtx = document.getElementById('productionChart').getContext('2d');
+    new Chart(productionCtx, {
+        type: 'line',
+        data: {
+            labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+            datasets: [{
+                label: 'Production (kWh)',
+                data: {{ production_data|safe }},
+                borderColor: 'rgba(75, 192, 192, 1)',
+                fill: true,
+                tension: 0.3
+            }]
+        },
+        options: {
+            responsive: true
+        }
+    });
+
+    // กราฟแท่ง - เปรียบเทียบประสิทธิภาพโรงงาน
+    const performanceCtx = document.getElementById('performanceChart').getContext('2d');
+    new Chart(performanceCtx, {
+        type: 'bar',
+        data: {
+            labels: {{ performance_data.labels|safe }},
+            datasets: [{
+                label: 'Efficiency (%)',
+                data: {{ performance_data.values|safe }},
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.6)',
+                    'rgba(54, 162, 235, 0.6)',
+                    'rgba(255, 206, 86, 0.6)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 100
+                }
+            }
+        }
+    });
+</script>
+
+<h2>Solar Temperature Chart</h2>
+<canvas id="solarTempChart" width="600" height="300"></canvas>
+
+<script>
+    const solarTempCtx = document.getElementById('solarTempChart').getContext('2d');
+    new Chart(solarTempCtx, {
+        type: 'line',
+        data: {
+            labels: {{ solar_temp_data.time_labels|safe }},
+            datasets: [{
+                label: 'Solar Cell Temp (°C)',
+                data: {{ solar_temp_data.temperatures|safe }},
+                borderColor: 'rgba(255, 165, 0, 1)',
+                backgroundColor: 'rgba(255, 165, 0, 0.3)',
+                fill: true,
+                tension: 0.4,
+                pointRadius: 4,
+                pointHoverRadius: 6
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    suggestedMin: 25,
+                    suggestedMax: 60,
+                    title: {
+                        display: true,
+                        text: 'Temperature (°C)'
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Time of Day'
+                    }
+                }
+            }
+        }
+    });
+</script> -->
+
+  <hr>
+  <a href="{% url 'dashboard:dashboard_customize' plant.id %}" class="btn btn-secondary">Customize Dashboard</a>
+  <br>
+  <br>
+{% endblock %}
