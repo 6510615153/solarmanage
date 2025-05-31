@@ -22,19 +22,29 @@
             </tr>
         </thead>
         <tbody>
-            {% for plant in plants %}
+            {% for item in plant_data %}
                 <tr>
-                    <td>{{ plant.id }}</td>
-                    <td>{{ plant.plant_name }}</td>
-                    <td>{{ energy.0  }}</td>
+                    <td>{{ item.plant.id }}</td>
+                    <td>{{ item.plant.plant_name }}</td>
+                    <td>{{ item.energy }}</td>
                     <td>
-                    <a class="details_button" href="{% url 'dashboard:dashboard_main' plant.id %}">Details</a>
+                    <a class="details_button" href="{% url 'dashboard:dashboard_main' item.plant.id %}">Details</a>
                     </td> 
                 </tr>
             {% endfor %}
         </tbody>
     </table>
-    {% endblock %}
+    <div style="
+            position: fixed;
+            bottom: 40px;   
+            right: 40px;    
+        ">
+        <a class="details_button" href="{% url 'solarplant:create_plant' %}">+ Add Plant</a>
+        <a class="details_button" href="{% url 'solarplant:create_zone' %}">+ Add Zone</a>
+        <a class="details_button" href="{% url 'solarplant:create_panel' %}">+ Add Panel</a>
+    </div>
     </main>
+    {% endblock %}
+    
 </body>
 </html>

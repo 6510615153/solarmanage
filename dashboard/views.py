@@ -17,13 +17,19 @@ class Dashboard:
         average_efficiency = []
 
         zones = Zone.objects.filter(zone_plant=plant)
-        energy_generated = sum([zone.total_energy_generated() for zone in zones])
-        average_efficiency = f"{sum([zone.average_efficiency() for zone in zones]) / zones.count():.2f}"
-        
-        return {
-                    "efficiency": average_efficiency, 
-                    "output": energy_generated,
-                }
+        if zones.exists():
+            energy_generated = sum([zone.total_energy_generated() for zone in zones])
+            average_efficiency = f"{sum([zone.average_efficiency() for zone in zones]) / zones.count():.2f}"
+            
+            return {
+                        "efficiency": average_efficiency, 
+                        "output": energy_generated,
+                    }
+        else:
+            return {
+                        "efficiency": 0, 
+                        "output": 0,
+                    }
 
     def show_energy_forecast(self, plant_id):
         return {"forecast_kWh": 13500, "date": datetime.now().date()}

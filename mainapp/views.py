@@ -20,19 +20,25 @@ def solarplant(request):
 
         # energy_generated = [plant.total_energy_generated() for plant in all_plants]
 
-    energy_generated = []
+    plant_data = []
+
+    # energy_generated = []
 
     for plant in all_plants:
         zones = Zone.objects.filter(zone_plant=plant)
         zone_energy_generated = sum([zone.total_energy_generated() for zone in zones])
 
-        energy_generated.append(zone_energy_generated)
+        plant_data.append({
+            'plant': plant,
+            'energy': zone_energy_generated
+        })
 
 
     return render(request, "mainapp/solarplant.html", {
         "member": current_member,
-        "plants": all_plants,
-        "energy": energy_generated,
+        "plant_data": plant_data,
+        # "plants": all_plants,
+        # "energy": energy_generated,
     })
 
 # def details(request, plant_id):
